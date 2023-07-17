@@ -73,11 +73,11 @@ const loadMorePhotos = async function (entries, observer) {
         refs.gallery.insertAdjacentHTML('beforeend', markup);
 
         // const showMore = pixaby.hasMorePhotos();
-        if (pixaby.hasMorePhotos) {
+        if (pixaby.hasMorePhotos === 0) {
           const lastItem = document.querySelector('.gallery a:last-child');
           observer.observe(lastItem);
         } else
-          Notify.info(
+          Notify.failure(
             'Were sorry, but you have reached the end of search results.',
             notifyInit
           );
@@ -159,12 +159,14 @@ const onLoadMore = async () => {
 
   if (!pixaby.hasMorePhotos) {
     refs.btnLoadMore.classList.add('is-hidden');
-    Notify.info('Were sorry, but you have reached the end of search results.');
+    Notify.failure(
+      'Were sorry, but you have reached the end of search results.'
+    );
     notifyInit;
   }
   try {
-    const { hits } = await pixaby.getPhotos();
-    const markup = createMarkup(hits);
+    //  const { hits } = await pixaby.getPhotos();
+    //const markup = createMarkup(hits);
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 
     modalLightboxGallery.refresh();
@@ -201,7 +203,7 @@ function scrollPage() {
 window.addEventListener('scroll', scrollFunction);
 
 function scrollFunction() {
-  if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+  if (document.body.scrollTop > 29 || document.documentElement.scrollTop > 29) {
     refs.btnUpWrapper.style.display = 'flex';
   } else {
     refs.btnUpWrapper.style.display = 'none';
