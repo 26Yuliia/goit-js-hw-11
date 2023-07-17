@@ -6,7 +6,7 @@ import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { createMarkup } from './js/CreateMarkup';
-import {PixabayAPI} from './js/PixabayAPI';
+import { PixabayAPI } from './js/PixabayAPI';
 //import { refs } from './refs';
 import { notifyInit } from './js/notifyInit';
 //import { spinnerPlay, spinnerStop } from './spinner';
@@ -78,7 +78,7 @@ const loadMorePhotos = async function (entries, observer) {
           observer.observe(lastItem);
         } else
           Notify.info(
-            "We're sorry, but you've reached the end of search results.",
+            'Were sorry, but you have reached the end of search results.',
             notifyInit
           );
 
@@ -159,7 +159,7 @@ const onLoadMore = async () => {
 
   if (!pixaby.hasMorePhotos) {
     refs.btnLoadMore.classList.add('is-hidden');
-    Notify.info("We're sorry, but you've reached the end of search results.");
+    Notify.info('Were sorry, but you have reached the end of search results.');
     notifyInit;
   }
   try {
