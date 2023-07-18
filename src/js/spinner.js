@@ -7,5 +7,5 @@ export function spinnerStop() {
   window.setTimeout(function () {
     refs.body.classList.remove('loading');
     refs.body.classList.add('loaded');
-  }, 1500);
+  }, 500);
 }

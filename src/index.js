@@ -25,7 +25,7 @@ const refs = {
 };
 
 const modalLightboxGallery = new SimpleLightbox('.gallery a', {
-  captionDelay: 250,
+  captionDelay: 200,
 });
 
 export function spinnerPlay() {
@@ -36,7 +36,7 @@ export function spinnerStop() {
   window.setTimeout(function () {
     refs.body.classList.remove('loading');
     refs.body.classList.add('loaded');
-  }, 1500);
+  }, 1400);
 }
 
 spinnerPlay();
@@ -47,7 +47,7 @@ window.addEventListener('load', () => {
   spinnerStop();
 });
 
-refs.btnLoadMore.classList.add('is-hidden');
+//refs.btnLoadMore.classList.add('is-hidden');
 
 const pixaby = new PixabayAPI();
 
@@ -72,8 +72,8 @@ const loadMorePhotos = async function (entries, observer) {
         const markup = createMarkup(hits);
         refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-        // const showMore = pixaby.hasMorePhotos();
-        if (pixaby.hasMorePhotos === 0) {
+        //const showInfo = pixaby.hasMorePhotos();
+        if (pixaby.hasMorePhotos === 1) {
           const lastItem = document.querySelector('.gallery a:last-child');
           observer.observe(lastItem);
         } else
@@ -83,7 +83,7 @@ const loadMorePhotos = async function (entries, observer) {
           );
 
         modalLightboxGallery.refresh();
-        scrollPage();
+        // scrollPage();
       } catch (error) {
         Notify.failure(error.message, 'Something went wrong!', notifyInit);
         clearPage();
@@ -144,7 +144,7 @@ const onSubmitClick = async event => {
     }
 
     modalLightboxGallery.refresh();
-    // scrollPage();
+    scrollPage();
   } catch (error) {
     Notify.failure(error.message, 'Something went wrong!', notifyInit);
 
@@ -158,15 +158,14 @@ const onLoadMore = async () => {
   pixaby.incrementPage();
 
   if (!pixaby.hasMorePhotos) {
-    refs.btnLoadMore.classList.add('is-hidden');
-    Notify.failure(
-      'Were sorry, but you have reached the end of search results.'
-    );
+    //refs.btnLoadMore.classList.add('is-hidden');
+    Notify.info('Were sorry, but you have reached the end of search results.');
     notifyInit;
+    refs.onLoadMore = 'none';
   }
   try {
-    //  const { hits } = await pixaby.getPhotos();
-    //const markup = createMarkup(hits);
+    const { hits } = await pixaby.getPhotos();
+    const markup = createMarkup(hits);
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 
     modalLightboxGallery.refresh();
@@ -180,11 +179,11 @@ const onLoadMore = async () => {
 function clearPage() {
   pixaby.resetPage();
   refs.gallery.innerHTML = '';
-  refs.btnLoadMore.classList.add('is-hidden');
+  //refs.btnLoadMore.classList.add('is-hidden');
 }
 
 refs.form.addEventListener('submit', onSubmitClick);
-refs.btnLoadMore.addEventListener('click', onLoadMore);
+//refs.btnLoadMore.addEventListener('click', onLoadMore);
 
 //  smooth scrolling
 function scrollPage() {
@@ -203,7 +202,7 @@ function scrollPage() {
 window.addEventListener('scroll', scrollFunction);
 
 function scrollFunction() {
-  if (document.body.scrollTop > 29 || document.documentElement.scrollTop > 29) {
+  if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
     refs.btnUpWrapper.style.display = 'flex';
   } else {
     refs.btnUpWrapper.style.display = 'none';
