@@ -58,7 +58,7 @@ const options = {
 };
 
 const loadMorePhotos = async function (entries, observer) {
-  entries.forEach(async entry => {
+  entries.every(async entry => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
       pixaby.incrementPage();
@@ -72,8 +72,8 @@ const loadMorePhotos = async function (entries, observer) {
         const markup = createMarkup(hits);
         refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-        //const showInfo = pixaby.hasMorePhotos();
-        if (pixaby.hasMorePhotos === 1) {
+        const showInfo = pixaby.hasMorePhotos();
+        if (pixaby.hasMorePhotos === 0) {
           const lastItem = document.querySelector('.gallery a:last-child');
           observer.observe(lastItem);
         } else
